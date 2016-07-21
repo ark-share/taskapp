@@ -12,6 +12,7 @@
 		A38BECD01D408A6900A35E81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A38BECCE1D408A6900A35E81 /* Main.storyboard */; };
 		A38BECD21D408A6900A35E81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A38BECD11D408A6900A35E81 /* Assets.xcassets */; };
 		A38BECD51D408A6900A35E81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A38BECD31D408A6900A35E81 /* LaunchScreen.storyboard */; };
+		A38BECDD1D408E2C00A35E81 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38BECDC1D408E2C00A35E81 /* InputViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		A38BECD11D408A6900A35E81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A38BECD41D408A6900A35E81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A38BECD61D408A6900A35E81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A38BECDC1D408E2C00A35E81 /* InputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				A38BECCA1D408A6900A35E81 /* AppDelegate.swift */,
 				A38BECCC1D408A6900A35E81 /* ViewController.swift */,
 				A38BECCE1D408A6900A35E81 /* Main.storyboard */,
+				A38BECDC1D408E2C00A35E81 /* InputViewController.swift */,
 				A38BECD11D408A6900A35E81 /* Assets.xcassets */,
 				A38BECD31D408A6900A35E81 /* LaunchScreen.storyboard */,
 				A38BECD61D408A6900A35E81 /* Info.plist */,
@@ -135,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A38BECDD1D408E2C00A35E81 /* InputViewController.swift in Sources */,
 				A38BECCD1D408A6900A35E81 /* ViewController.swift in Sources */,
 				A38BECCB1D408A6900A35E81 /* AppDelegate.swift in Sources */,
 			);
