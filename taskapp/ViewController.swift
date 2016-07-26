@@ -37,7 +37,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // Cellに値を設定する
         let task = taskArray[indexPath.row]
-        cell.textLabel?.text = task.title
+        //cell.textLabel?.text = task.title
+        cell.textLabel?.text = "ID.\(task.id) \(task.title)"
+        cell.textLabel?.font = UIFont.boldSystemFontOfSize(UIFont.labelFontSize())
         
         let formatter = NSDateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
@@ -60,6 +62,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         // 削除時
         if editingStyle == UITableViewCellEditingStyle.Delete {
+            
+            // ローカル通知を削除
+            let task = taskArray[indexPath.row]
+            // todo: 以下InputViewControllerと同じなので共通化したい
+            for notification in UIApplication.sharedApplication().scheduledLocalNotifications! {
+                if notification.userInfo!["id"] as! Int == task.id {
+                    UIApplication.sharedApplication().cancelLocalNotification(notification)
+                    break
+                }
+            }
+            
+            // データベースから削除
             try! realm.write {
                 self.realm.delete(self.taskArray[indexPath.row])
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)

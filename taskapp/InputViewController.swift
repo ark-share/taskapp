@@ -51,4 +51,25 @@ class InputViewController: UIViewController {
     func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    // ローカル通知を設定する
+    func setNotification(task: Task) {
+        // 編集前のタスクは削除
+        for notification in UIApplication.sharedApplication().scheduledLocalNotifications! {
+            if notification.userInfo!["id"] as! Int == task.id {
+                UIApplication.sharedApplication().cancelLocalNotification(notification)
+                break
+            }
+        }
+        
+        let notification = UILocalNotification()
+        
+        notification.fireDate = task.date
+        notification.timeZone = NSTimeZone.defaultTimeZone()
+        notification.alertBody = "\(task.title)"
+        notification.soundName = UILocalNotificationDefaultSoundName
+        notification.userInfo = ["id":task.id]
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
+    
 }
