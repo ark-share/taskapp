@@ -68,6 +68,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // todo: 以下InputViewControllerと同じなので共通化したい
             for notification in UIApplication.sharedApplication().scheduledLocalNotifications! {
                 if notification.userInfo!["id"] as! Int == task.id {
+                    print("通知も同時に削除 ID.\(task.id)")
                     UIApplication.sharedApplication().cancelLocalNotification(notification)
                     break
                 }
@@ -106,6 +107,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
+
+    // test
+    @IBAction func printSchedule(sender: AnyObject) {
+        print("schedule?")
+        for notification in UIApplication.sharedApplication().scheduledLocalNotifications! {
+            print(notification.userInfo!["id"])
+            print(notification.fireDate)
+            
+        }
+    }
     
+
 }
 

@@ -31,6 +31,7 @@ class InputViewController: UIViewController {
         titleTextField.text = task.title
         contentsTextView.text = task.contents
         datePicker.date = task.date
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,6 +46,10 @@ class InputViewController: UIViewController {
             self.task.date = self.datePicker.date
             self.realm.add(self.task, update: true)
         }
+        
+        setNotification(task)
+
+        super.viewWillDisappear(animated)
     }
 
     
@@ -57,6 +62,7 @@ class InputViewController: UIViewController {
         // 編集前のタスクは削除
         for notification in UIApplication.sharedApplication().scheduledLocalNotifications! {
             if notification.userInfo!["id"] as! Int == task.id {
+                print("古い通知を削除 ID.\(task.id)")
                 UIApplication.sharedApplication().cancelLocalNotification(notification)
                 break
             }
