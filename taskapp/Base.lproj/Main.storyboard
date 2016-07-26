@@ -142,7 +142,7 @@
                     </view>
                     <connections>
                         <outlet property="contentsTextView" destination="KQc-oP-HQe" id="Amj-si-xHk"/>
-                        <outlet property="dataPicker" destination="EjP-2m-xEj" id="fT9-nI-XQp"/>
+                        <outlet property="datePicker" destination="EjP-2m-xEj" id="8dd-VL-CPs"/>
                         <outlet property="titleTextField" destination="IaN-Q3-L7M" id="sO9-Zi-8vQ"/>
                     </connections>
                 </viewController>
@@ -170,6 +170,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xjv-cq-Ier"/>
+        <segue reference="6gs-15-yFS"/>
     </inferredMetricsTieBreakers>
 </document>
