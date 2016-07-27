@@ -68,7 +68,7 @@
                                 </constraints>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="GyZ-yf-WAD"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="dXr-se-GZ0"/>
                                 </connections>
                             </searchBar>
                         </subviews>
@@ -98,6 +98,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="ZfH-0h-wq5" id="Upw-1I-rbl"/>
                         <outlet property="tableView" destination="xtR-9V-vY8" id="U66-5x-4YM"/>
                         <segue destination="NmN-58-tiU" kind="show" identifier="cellSegue" id="xjv-cq-Ier"/>
                     </connections>

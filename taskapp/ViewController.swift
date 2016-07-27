@@ -23,9 +23,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // 自動的に先頭を大文字にしない
-        //searchBar.autocapitalizationType = UITextAutocapitalizationType.None
+        // outlet接続のチェック
+        if searchBar == nil {
+            print("outlet接続されてる〜？")
+        }
         
+        
+        // 自動的に先頭を大文字にしない
+        searchBar.autocapitalizationType = UITextAutocapitalizationType.None
     }
 
     override func didReceiveMemoryWarning() {
@@ -131,7 +136,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
         }
         else {
-            taskArray = try! Realm().objects(Task).filter("category = '\(searchText)'").sorted("date", ascending: false)
+            // 前方一致になるかな
+            let prepare = NSPredicate(format: "category BEGINSWITH '\(searchText)'")
+            taskArray = try! Realm().objects(Task).filter(prepare).sorted("date", ascending: false)
         }
         
         tableView.reloadData()
