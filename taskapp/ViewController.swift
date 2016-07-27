@@ -10,17 +10,22 @@ import UIKit
 
 import RealmSwift
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     let realm = try! Realm()
     
-    let taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
+    var taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // 自動的に先頭を大文字にしない
+        //searchBar.autocapitalizationType = UITextAutocapitalizationType.None
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,7 +98,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             inputViewController.task = taskArray[indexPath!.row]
         } else {
             let task = Task()
-            task.date = NSDate() // 遷移前の画面で初期値を準備している。add/edit用に別々に用意すると自然か？
+            task.date = NSDate()
             
             if taskArray.count != 0 {
                 task.id = taskArray.max("id")! + 1
@@ -110,14 +115,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // test
     @IBAction func printSchedule(sender: AnyObject) {
-        print("schedule?")
         for notification in UIApplication.sharedApplication().scheduledLocalNotifications! {
+            
             print(notification.userInfo!["id"])
             print(notification.fireDate)
             
         }
     }
     
+    // search
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+        
+        if searchText == "" {
+            taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
+        }
+        else {
+            taskArray = try! Realm().objects(Task).filter("category = '\(searchText)'").sorted("date", ascending: false)
+        }
+        
+        tableView.reloadData()
+    }
 
 }
 

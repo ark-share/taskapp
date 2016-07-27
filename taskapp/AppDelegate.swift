@@ -37,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let alertController = UIAlertController(title: "時間になりました", message:notification.alertBody, preferredStyle: .Alert)
             let defaultAction = UIAlertAction(title:"OK", style:UIAlertActionStyle.Default, handler: nil)
             alertController.addAction(defaultAction)
+            
+            window?.rootViewController!.presentViewController(alertController, animated: true, completion: nil)
         }
         else {
             // バックグラウンドの時はログ出力のみ

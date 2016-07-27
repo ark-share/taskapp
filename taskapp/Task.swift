@@ -11,6 +11,8 @@ import RealmSwift
 class Task: Object {
     dynamic var id = 0
     
+    dynamic var category = ""
+    
     dynamic var title = ""
     
     dynamic var contents = ""

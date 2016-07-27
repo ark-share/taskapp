@@ -12,6 +12,7 @@ import RealmSwift
 
 class InputViewController: UIViewController {
 
+    @IBOutlet weak var categoryTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -28,6 +29,9 @@ class InputViewController: UIViewController {
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(UIInputViewController.dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
         
+        print(task.category)
+        
+        categoryTextField.text = task.category
         titleTextField.text = task.title
         contentsTextView.text = task.contents
         datePicker.date = task.date
@@ -41,6 +45,7 @@ class InputViewController: UIViewController {
 
     override func viewWillDisappear(animated: Bool) {
         try! realm.write {
+            self.task.category = self.categoryTextField.text!
             self.task.title = self.titleTextField.text!
             self.task.contents = self.contentsTextView.text
             self.task.date = self.datePicker.date
