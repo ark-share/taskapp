@@ -11,7 +11,7 @@ import RealmSwift
 class Task: Object {
     dynamic var id = 0
     
-    dynamic var category = "" // TextFieldだったら
+    dynamic var category = "" // TextField　非表示にしたので使ってない。
     dynamic var category_id = -1 // Pickerに変更 0だとデータが入っちゃうので未選択として-1にしておく
     
     dynamic var title = ""

@@ -34,14 +34,8 @@ class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
         
-        print(task.category_id)
-        
-        
         categoryTextField.text = task.category
-        //pickerView.selectedRowInComponent(task.category_id) // 新規追加だとcategory_id -1が入ってエラーになり、Inputフォームが開けない
-        if task.category_id >= 0 {
-            pickerView.selectedRowInComponent(task.category_id)
-        }
+        pickerView.selectRow(task.category_id, inComponent: 0, animated: true) // 保存したカテゴリを選択させる
         titleTextField.text = task.title
         contentsTextView.text = task.contents
         datePicker.date = task.date
@@ -56,7 +50,8 @@ class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     override func viewWillDisappear(animated: Bool) {
         try! realm.write {
             self.task.category = self.categoryTextField.text! // pickerViewへ
-            self.task.category_id = -1 // ？？　Inputフォーム上で選択したPickerのIDを得る方法が不明
+            //self.task.category_id = -1 // 未選択
+            self.task.category_id = self.pickerView.selectedRowInComponent(0) // 選択中のrowを得る。列が１つなら引数componentは「0」番目を指定すればいいのかな？
             self.task.title = self.titleTextField.text!
             self.task.contents = self.contentsTextView.text
             self.task.date = self.datePicker.date
@@ -124,9 +119,9 @@ class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return categoryArray[row].name
     }
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(row)
-    }
+//    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        print(row)
+//    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
