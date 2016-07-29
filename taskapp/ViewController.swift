@@ -19,18 +19,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
     
+    var categoryArray = try! Realm().objects(Category).sorted("id", ascending: true)
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // outlet接続のチェック
-        if searchBar == nil {
-            print("outlet接続されてる〜？")
-        }
-        
-        
         // 自動的に先頭を大文字にしない
         searchBar.autocapitalizationType = UITextAutocapitalizationType.None
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,7 +46,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Cellに値を設定する
         let task = taskArray[indexPath.row]
         //cell.textLabel?.text = task.title
-        cell.textLabel?.text = "ID.\(task.id) \(task.title)"
+        cell.textLabel?.text = "Id.\(task.id) Ti:\(task.title) Ca:\(task.category_id)"
         cell.textLabel?.font = UIFont.boldSystemFontOfSize(UIFont.labelFontSize())
         
         let formatter = NSDateFormatter()
@@ -116,16 +114,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-    }
-
-    // test
-    @IBAction func printSchedule(sender: AnyObject) {
-        for notification in UIApplication.sharedApplication().scheduledLocalNotifications! {
-            
-            print(notification.userInfo!["id"])
-            print(notification.fireDate)
-            
-        }
     }
     
     // search

@@ -10,9 +10,11 @@ import UIKit
 
 import RealmSwift
 
-class InputViewController: UIViewController {
-
-    @IBOutlet weak var categoryTextField: UITextField!
+class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    @IBOutlet weak var categoryTextField: UITextField! // もともとあったカテゴリ入力は残しておく。別途、pickerを使った選択に変更中
+    @IBOutlet weak var pickerView: UIPickerView!
+    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -20,18 +22,26 @@ class InputViewController: UIViewController {
     let realm = try! Realm()
     var task:Task!
     
+    var categoryArray = try! Realm().objects(Category).sorted("id", ascending: true)
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
         // 背景タップでキーボードを隠す
-        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(UIInputViewController.dismissKeyboard))
+        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
         
-        print(task.category)
+        print(task.category_id)
+        
         
         categoryTextField.text = task.category
+        //pickerView.selectedRowInComponent(task.category_id) // 新規追加だとcategory_id -1が入ってエラーになり、Inputフォームが開けない
+        if task.category_id >= 0 {
+            pickerView.selectedRowInComponent(task.category_id)
+        }
         titleTextField.text = task.title
         contentsTextView.text = task.contents
         datePicker.date = task.date
@@ -45,7 +55,8 @@ class InputViewController: UIViewController {
 
     override func viewWillDisappear(animated: Bool) {
         try! realm.write {
-            self.task.category = self.categoryTextField.text!
+            self.task.category = self.categoryTextField.text! // pickerViewへ
+            self.task.category_id = -1 // ？？　Inputフォーム上で選択したPickerのIDを得る方法が不明
             self.task.title = self.titleTextField.text!
             self.task.contents = self.contentsTextView.text
             self.task.date = self.datePicker.date
@@ -73,14 +84,52 @@ class InputViewController: UIViewController {
             }
         }
         
-        let notification = UILocalNotification()
+        // アラートが未来ならローカル通知を作る
+        let now = NSDate()
+        if now.compare(task.date) == NSComparisonResult.OrderedAscending {
         
-        notification.fireDate = task.date
-        notification.timeZone = NSTimeZone.defaultTimeZone()
-        notification.alertBody = "\(task.title)"
-        notification.soundName = UILocalNotificationDefaultSoundName
-        notification.userInfo = ["id":task.id]
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+            let notification = UILocalNotification()
+            
+            notification.fireDate = task.date
+            notification.timeZone = NSTimeZone.defaultTimeZone()
+            notification.alertBody = "\(task.title)"
+            notification.soundName = UILocalNotificationDefaultSoundName
+            notification.userInfo = ["id":task.id]
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        }
+    }
+ 
+    
+    // 画面遷移
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let vc:CategoryViewController = segue.destinationViewController as! CategoryViewController
+        
+        let category = Category()
+        
+        if categoryArray.count != 0 {
+            category.id = categoryArray.max("id")! + 1
+        }
+        
+        vc.category = category
+        
     }
     
+    // picker
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categoryArray.count
+    }
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categoryArray[row].name
+    }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(row)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        pickerView.reloadAllComponents()
+    }
 }
