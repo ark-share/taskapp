@@ -31,14 +31,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // 自動的に先頭を大文字にしない
         //searchBar.autocapitalizationType = UITextAutocapitalizationType.None
     
-//        if categoryArray.count == 0 {
-//            var category:Category! // 初期値を作る
-//            try! realm.write {
-//                category.id = 0
-//                category.name = ""
-//                realm.add(category, update: true)
-//            }
-//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,12 +49,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let task = taskArray[indexPath.row]
         //cell.textLabel?.text = task.title
  
-        // リレーションを活かしてないデータの取り方？　task.category_idがないケースは省略
+        // リレーションを活かしてないデータの取り方？
         if let data = realm.objectForPrimaryKey(Category.self, key: task.category_id) {
             cell.textLabel?.text = "Id.\(task.id) Ti:\(task.title) Ca:\(data.name)"
         }
-        // リレーションを使ったカテゴリ名の表示　→わからない！
-        //cell.textLabel?.text = "Id.\(task.id) Ti:\(task.title) Ca:\(task.category!.name)"
         
         cell.textLabel?.font = UIFont.boldSystemFontOfSize(UIFont.labelFontSize())
         

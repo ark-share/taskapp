@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -21,9 +22,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xtR-9V-vY8">
                                 <rect key="frame" x="0.0" y="106" width="600" height="494"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="536" id="Ays-He-ZaQ"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="EIn-YY-T6N" detailTextLabel="3bv-4e-eGT" style="IBUITableViewCellStyleSubtitle" id="omv-MH-x8B">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
@@ -50,11 +48,6 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Ays-He-ZaQ"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="a6S-mP-0VI"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="3sW-wK-eHY"/>
@@ -218,7 +211,6 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="EjP-2m-xEj" secondAttribute="trailing" id="2bq-qH-enp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="b1v-dA-lwX" secondAttribute="trailing" id="2iJ-OT-b9a"/>
-                            <constraint firstItem="TBr-L1-XW7" firstAttribute="top" secondItem="URp-QU-0yP" secondAttribute="bottom" constant="10" id="40b-7I-gxW"/>
                             <constraint firstItem="DZG-Te-BiE" firstAttribute="trailing" secondItem="ZcV-0U-r55" secondAttribute="trailingMargin" id="AWN-HC-Fb2"/>
                             <constraint firstItem="mqH-3T-KC8" firstAttribute="top" secondItem="URp-QU-0yP" secondAttribute="bottom" constant="10" id="EPb-5g-v2w"/>
                             <constraint firstItem="DZG-Te-BiE" firstAttribute="top" secondItem="URp-QU-0yP" secondAttribute="bottom" constant="10" id="GW8-rd-BoO"/>
@@ -230,11 +222,9 @@
                             <constraint firstItem="mqH-3T-KC8" firstAttribute="leading" secondItem="ZcV-0U-r55" secondAttribute="leadingMargin" id="NQp-5r-Se3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="KQc-oP-HQe" secondAttribute="trailing" id="OCJ-DX-vmF"/>
                             <constraint firstItem="IaN-Q3-L7M" firstAttribute="leading" secondItem="ZcV-0U-r55" secondAttribute="leadingMargin" id="QSV-go-BqG"/>
-                            <constraint firstItem="TBr-L1-XW7" firstAttribute="top" secondItem="f9u-I5-TkW" secondAttribute="bottom" constant="10" id="ZiD-ow-SW3"/>
                             <constraint firstItem="KQc-oP-HQe" firstAttribute="top" secondItem="pu9-B6-1EZ" secondAttribute="bottom" constant="10" id="aUi-vL-uG0"/>
                             <constraint firstItem="b1v-dA-lwX" firstAttribute="top" secondItem="DZG-Te-BiE" secondAttribute="bottom" id="bvQ-wF-Yga"/>
                             <constraint firstItem="KQc-oP-HQe" firstAttribute="leading" secondItem="ZcV-0U-r55" secondAttribute="leadingMargin" id="ehZ-LQ-Uzi"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="f9u-I5-TkW" secondAttribute="trailing" id="ha4-Mr-xkg"/>
                             <constraint firstItem="b1v-dA-lwX" firstAttribute="top" secondItem="f9u-I5-TkW" secondAttribute="bottom" constant="10" id="jFu-HN-iUl"/>
                             <constraint firstItem="TBr-L1-XW7" firstAttribute="leading" secondItem="ZcV-0U-r55" secondAttribute="leadingMargin" id="kzV-do-7OG"/>
                             <constraint firstItem="EjP-2m-xEj" firstAttribute="top" secondItem="KQc-oP-HQe" secondAttribute="bottom" constant="10" id="mY3-Al-kRX"/>
@@ -246,10 +236,6 @@
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="f9u-I5-TkW"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="40b-7I-gxW"/>
-                                <exclude reference="ZiD-ow-SW3"/>
                             </mask>
                         </variation>
                     </view>
