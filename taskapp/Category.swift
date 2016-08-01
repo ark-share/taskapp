@@ -13,6 +13,8 @@ class Category: Object {
     
     dynamic var name = ""
     
+    let tasks = List<Task>() // 1対多のリレーション
+    
     override static func primaryKey() -> String? {
         return "id"
     }

@@ -10,25 +10,35 @@ import UIKit
 
 import RealmSwift
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-
+// UISearchBarDelegate,
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate {
+    
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
+    //@IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var pickerView: UIPickerView!
     
     let realm = try! Realm()
     
     var taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
     
     var categoryArray = try! Realm().objects(Category).sorted("id", ascending: true)
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         // 自動的に先頭を大文字にしない
-        searchBar.autocapitalizationType = UITextAutocapitalizationType.None
-        
+        //searchBar.autocapitalizationType = UITextAutocapitalizationType.None
+    
+//        if categoryArray.count == 0 {
+//            var category:Category! // 初期値を作る
+//            try! realm.write {
+//                category.id = 0
+//                category.name = ""
+//                realm.add(category, update: true)
+//            }
+//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,7 +56,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Cellに値を設定する
         let task = taskArray[indexPath.row]
         //cell.textLabel?.text = task.title
-        cell.textLabel?.text = "Id.\(task.id) Ti:\(task.title) Ca:\(task.category_id)"
+ 
+        // リレーションを活かしてないデータの取り方？　task.category_idがないケースは省略
+        if let data = realm.objectForPrimaryKey(Category.self, key: task.category_id) {
+            cell.textLabel?.text = "Id.\(task.id) Ti:\(task.title) Ca:\(data.name)"
+        }
+        // リレーションを使ったカテゴリ名の表示　→わからない！
+        //cell.textLabel?.text = "Id.\(task.id) Ti:\(task.title) Ca:\(task.category!.name)"
+        
         cell.textLabel?.font = UIFont.boldSystemFontOfSize(UIFont.labelFontSize())
         
         let formatter = NSDateFormatter()
@@ -114,23 +131,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        pickerView.reloadAllComponents()
     }
     
     // search
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
-        
-        if searchText == "" {
-            taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
-        }
-        else {
-            // 前方一致になるかな
-            let prepare = NSPredicate(format: "category BEGINSWITH '\(searchText)'")
-            taskArray = try! Realm().objects(Task).filter(prepare).sorted("date", ascending: false)
-        }
+//    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+//        print(searchText)
+//        
+//        if searchText == "" {
+//            taskArray = try! Realm().objects(Task).sorted("date", ascending: false)
+//        }
+//        else {
+//            // 前方一致になるかな
+//            let prepare = NSPredicate(format: "category BEGINSWITH '\(searchText)'")
+//            taskArray = try! Realm().objects(Task).filter(prepare).sorted("date", ascending: false)
+//        }
+//        
+//        tableView.reloadData()
+//    }
+
+    // Picker
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categoryArray.count
+    }
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categoryArray[row].name
+    }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // 選択時
+        let prepare = NSPredicate(format: "category_id = \(row)")
+        taskArray = try! Realm().objects(Task).filter(prepare).sorted("date", ascending: false)
         
         tableView.reloadData()
     }
-
+    
 }
 

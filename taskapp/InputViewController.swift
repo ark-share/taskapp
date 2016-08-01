@@ -28,14 +28,14 @@ class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
         // 背景タップでキーボードを隠す
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
         
-        categoryTextField.text = task.category
-        pickerView.selectRow(task.category_id, inComponent: 0, animated: true) // 保存したカテゴリを選択させる
+        //categoryTextField.text = task.category
+        if task.category_id >= 0 {
+            pickerView.selectRow(task.category_id, inComponent: 0, animated: true) // 保存したカテゴリを選択させる
+        }
         titleTextField.text = task.title
         contentsTextView.text = task.contents
         datePicker.date = task.date
@@ -49,8 +49,7 @@ class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
 
     override func viewWillDisappear(animated: Bool) {
         try! realm.write {
-            self.task.category = self.categoryTextField.text! // pickerViewへ
-            //self.task.category_id = -1 // 未選択
+            //self.task.category = self.categoryTextField.text!
             self.task.category_id = self.pickerView.selectedRowInComponent(0) // 選択中のrowを得る。列が１つなら引数componentは「0」番目を指定すればいいのかな？
             self.task.title = self.titleTextField.text!
             self.task.contents = self.contentsTextView.text
@@ -109,7 +108,7 @@ class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
     }
     
-    // picker
+    // Picker
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }
